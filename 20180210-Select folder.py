@@ -6,8 +6,9 @@ Created on Sat Feb 10 23:08:12 2018
 
 Todolist:
     - select folder (done!)
-    - enter the label (on-going)
-    - plot the graph
+    - enter the label (done!)
+    - make exe (on-going)
+    - plot the graph in window
     - some more
 """
 

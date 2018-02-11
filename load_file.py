@@ -106,13 +106,13 @@ def list_data(wd):
         data_output.write(para_data+'\n')       
     data_output.close()
 
-#cwd_list = os.listdir(os.getcwd())
-#for name in cwd_list:
-#    if name != '__pycache__' and os.path.isdir(name):
-#        wd = name
-#list_data(wd)
+cwd_list = os.listdir(os.getcwd())
+for name in cwd_list:
+    if name != '__pycache__' and os.path.isdir(name):
+        wd = name
+list_data(wd)
     
-list_data('20180207-K')
+#list_data('20180207-K')
 
         
 

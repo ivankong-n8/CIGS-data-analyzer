@@ -23,7 +23,10 @@ class PV_series_data(object):
         foldername: string, a folder contains all cell's data
         self.series_name
         self.file_list
-        self.cell_list: a list of cell object
+        self.cell_list: a list of cell object [PV_cell_data]
+        self.group
+        self.group_label
+        self.sort_flag
 
         '''
         if os.path.isdir(foldername):
@@ -32,8 +35,11 @@ class PV_series_data(object):
             raise ValueError('This is not a folder')
             
         self.file_list = os.listdir(self.series_name)
-        print(self.file_list)
         
+        print('There is/are: '+ str(len(self.file_list))+ ' file(s):\n')
+        print(self.file_list)
+        print('\n')
+
         self.cell_list = []
         os.chdir(foldername)
         # print(os.getcwd()) enter the child dir
@@ -123,10 +129,9 @@ class PV_series_data(object):
     def get_performance(self,cell_list_label = None):
         '''
         cell_list_label:str, self.cell_list or self.group[**]
-        return: a dic contains all the bisic performance values of all cell in 
-        the cell_list
         item_list: global list 
-        
+        return: a dic contains all the bisic performance values of all cell in 
+                the cell_list
         '''        
         performance_dict={}
         for item in item_list:

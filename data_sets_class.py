@@ -212,6 +212,6 @@ if __name__ == '__main__':
         a.sort(group_label)
         print(a)
         a.get_boxplot()
-        a.get_boxplot_subplot(2,3)
+        # a.get_boxplot_subplot(2,3)
         
         

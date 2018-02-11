@@ -5,7 +5,7 @@ Created on Sun Feb  4 21:44:50 2018
 
 @author: yfkong
 """
-import pylab as plt
+import matplotlib.pyplot as plt
 
 class PV_cell_data(object):
     '''
@@ -123,6 +123,16 @@ class PV_cell_data(object):
             
         # return a tuple including all data
         return (performance, IV)
+
+# =============================================================================
+# case for test
+# =============================================================================
+if __name__ == '__main__':
+    filename = 'MM_21-1-2.txt'
+    a = PV_cell_data(filename)
+    print(a)
+    a.plot_JV()
+
     
 
         

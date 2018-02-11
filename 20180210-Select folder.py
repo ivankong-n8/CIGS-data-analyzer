@@ -6,6 +6,7 @@ Created on Sat Feb 10 23:08:12 2018
 """
 
 import tkinter as tk
+import data_sets_class
 
 #import tkinter.filedialog
 # import tkinter.messagebox

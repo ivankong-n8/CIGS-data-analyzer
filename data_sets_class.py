@@ -147,7 +147,7 @@ class PV_series_data(object):
         '''
         data =[[],[]]
         data[0]=self.get_group_label()
-        for label in group_label:
+        for label in data[0]:
             data[1].append(self.get_performance(label))
         return data
     

@@ -6,8 +6,10 @@ Created on Sat Feb 10 23:08:12 2018
 
 Todolist:
     - select folder (done!)
+        -list the sample no.
     - enter the label (done!)
-    - make exe (on-going)
+        - label identifying
+    - make exe (on-going, some bugs)
     - plot the graph in window
     - some more
 """
@@ -22,6 +24,9 @@ window = tk.Tk()
 window.title('my window')
 window.geometry('200x200')
 
+# =============================================================================
+# select _folder
+# =============================================================================
 def select_folder(folder_name_tk):
     '''
     folder_name_tk: tk.StringVar()
@@ -36,9 +41,32 @@ b1 = tk.Button(window, text= 'Select folder', command =
 b1.pack()
 
 folder_name_tk = tk.StringVar()
-lb = tk.Label(window,textvariable = folder_name_tk, bg = 'Yellow',width = 200)
-lb.pack()
+lb_folder = tk.Label(window,textvariable = folder_name_tk, bg = 'Yellow',width = 200)
+lb_folder.pack()
 
+# =============================================================================
+#  load folder
+# =============================================================================
+def load_folder(folder_name_tk,data_set,sample_list_Text):
+    '''
+    init data from data folder
+    '''
+    data_set = None
+    foldername = folder_name_tk.get()
+    data_set = data_sets_class.PV_series_data(foldername)
+    sample_list_Text.insert(1.0,data_set.__str__())
+    
+data_set = None
+b_load_folder = tk.Button(window, text= 'Load folder', command = 
+               lambda: load_folder(folder_name_tk,data_set,sample_list_Text))
+b_load_folder.pack()
+
+sample_list_Text = tk.Text(window, bg = 'Yellow',width = 200,height = 2)
+sample_list_Text.pack()
+
+# =============================================================================
+#  enter label
+# =============================================================================
 label_input = tk.Text(window,height = 2)
 label_input.pack()
 
@@ -64,10 +92,8 @@ def analyzing(folder_name_tk,grouplb_tk):
     grouplb_tk:
     function: init data_sets_class and plot graph
     '''
-    foldername = folder_name_tk.get()
     group_label = grouplb_tk.get().split('/')
     print(group_label)
-    data_set = data_sets_class.PV_series_data(foldername)
     data_set.sort(group_label)
     print(data_set)
     data_set.get_boxplot()

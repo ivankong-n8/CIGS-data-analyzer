@@ -4,6 +4,8 @@
 Created on Mon Feb  5 22:48:00 2018
 
 @author: yfkong
+20180310: for No label situation
+
 """
 
 import os
@@ -13,6 +15,7 @@ import data_class
 
 item_list = ('Voc (V)', 'Jsc (mA/cm2)', 'Fill Factor (%)', 'Efficiency (%)',
              'R at Voc', 'R at Isc')
+
 
 class PV_series_data(object):
     '''
@@ -30,11 +33,12 @@ class PV_series_data(object):
 
         '''
         if os.path.isdir(foldername):
-            self.series_name = foldername
+            foldername = os.path.abspath(foldername)
+            self.series_name = os.path.split(foldername)[1]
         else:
             raise ValueError('This is not a folder')
-        self.file_list = os.listdir(self.series_name)
-        print('There is/are: '+ str(len(self.file_list))+ ' file(s):\n')
+        self.file_list = os.listdir(foldername)
+        print('There is/are: ' + str(len(self.file_list)) + ' file(s):\n')
         print(self.file_list)
         print('\n')
 
@@ -53,18 +57,19 @@ class PV_series_data(object):
         '''
         Display a string representation of a series of cells.
         '''
-        string = 'The series '+ self.series_name +' of CIGS thin film solar cells.\n'
+        string = ('The series ' + self.series_name +
+                  ' of CIGS thin film solar cells.\n')
         string += 'This series contains '+str(len(self.cell_list))+' cells:\n'
         for i in self.cell_list:
-            string += '\t' + i.get_no()+ '\n '
+            string += '\t' + i.get_no() + '\n '
 
         if self.sort_flag:
             string += 'Status: SORTED\n'
-            string += 'Here are '+str(len(self.group)-1)+ ' groups:\n'
+            string += 'Here are ' + str(len(self.group)-1) + ' groups:\n'
             for label in self.group:
-                string += 'Group ' +'['+ label +']:\n'
+                string += 'Group ' + '[' + label + ']:\n'
                 for cell in self.group[label]:
-                    string += '\t'+ cell.get_no() + '\n'
+                    string += '\t' + cell.get_no() + '\n'
         else:
             string += 'Status: UNSORTED\n'
         return string
@@ -105,7 +110,8 @@ class PV_series_data(object):
     def get_data(self, item, cell_list_label=None):
         '''
         cell_list_label:str, self.cell_list or self.group[**]
-        return: a list contains all the values of a specific item in the cell_list
+        return: a list contains all the values of a specific item
+                in the cell_list
         '''
         if cell_list_label is None:
             cell_list = self.cell_list
@@ -118,6 +124,7 @@ class PV_series_data(object):
             else:
                 value_list.append(round(float(i.get_para(item)), 2))
         return value_list
+
     def get_performance(self, cell_list_label=None):
         '''
         cell_list_label:str, self.cell_list or self.group[**]
@@ -136,11 +143,16 @@ class PV_series_data(object):
     def get_plot_data(self):
         '''
         generate data for ploting
+        for unsorted condition: data[0] = ['Unsorted']
         '''
         data = [[], []]
-        data[0] = self.get_group_label()
-        for label in data[0]:
-            data[1].append(self.get_performance(label))
+        if self.sort_flag is True:
+            data[0] = self.get_group_label()
+            for label in data[0]:
+                data[1].append(self.get_performance(label))
+        elif self.sort_flag is False:
+            data[0].append(self.series_name)
+            data[1].append(self.get_performance())
         return data
 
     def get_boxplot(self):
@@ -160,8 +172,8 @@ class PV_series_data(object):
                     plt.text(i+1, 0.95*min_list[i], str(min_list[i]),
                              horizontalalignment='center')
                 else:
-                    plt.text(i+1, 1.1*max_list[i]-0.1*min_list[i], str(max_list[i]),
-                             horizontalalignment='center')
+                    plt.text(i+1, 1.1*max_list[i]-0.1*min_list[i],
+                             str(max_list[i]), horizontalalignment='center')
             plt.boxplot(plt_data)
             plt.ylim(ymax=1.2*max(max_list)-0.2*min(min_list))
             if item == 'R at Voc':
@@ -189,8 +201,8 @@ class PV_series_data(object):
                     plt.text(i+1, 0.95*min_list[i], str(min_list[i]),
                              horizontalalignment='center')
                 else:
-                    plt.text(i+1, 1.1*max_list[i]-0.1*min_list[i], str(max_list[i]),
-                             horizontalalignment='center')
+                    plt.text(i+1, 1.1*max_list[i]-0.1*min_list[i],
+                             str(max_list[i]), horizontalalignment='center')
             plt.boxplot(plt_data)
             plt.ylim(ymax=1.2*max(max_list)-0.2*min(min_list))
             if item == 'R at Voc':
@@ -203,7 +215,7 @@ class PV_series_data(object):
 # =============================================================================
 # test case
 # =============================================================================
-#if __name__ == '__main__':
+# if __name__ == '__main__':
 #    foldername_input ='20180207-K'
 #    group_label_input = ['MM_21', 'NR006_21','MM_22','NR006_22']
 #    a = PV_series_data(foldername_input)

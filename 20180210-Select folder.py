@@ -14,6 +14,7 @@ Todolist:
     - some more
 """
 
+
 import tkinter as tk
 import tkinter.filedialog
 import data_sets_class
@@ -26,7 +27,7 @@ window.geometry('200x200')
 
 
 # =============================================================================
-# global variables
+# Global variables!!!
 # =============================================================================
 data_set = None
 group_lable = None
@@ -106,12 +107,13 @@ lb_grouplb.pack()
 # =============================================================================
 # Do the analyzing
 # =============================================================================
-def analyzing(data_set,goup_label):
+def analyzing():
     '''
     folder_name_tk: tk.StringVar()
     grouplb_tk:
     function: init data_sets_class and plot graph
     '''
+    global data_set,group_label
     print(data_set)
     print(group_label)
     data_set.sort(group_label)
@@ -119,7 +121,7 @@ def analyzing(data_set,goup_label):
     
     
 b2 = tk.Button(window, text= 'Analyze', 
-               command = lambda: analyzing(data_set,group_label))
+               command = lambda: analyzing())
 b2.pack()
 
 window.mainloop()

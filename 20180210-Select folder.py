@@ -125,7 +125,7 @@ def analyzing():
     if group_label is not None:
         data_set.sort(group_label)
     data_set.get_boxplot()
-    data_set.get_boxplot_subplot(2,3)
+    data_set.get_boxplot_subplot(2, 3)
 
 
 b2 = tk.Button(window, text='Analyze',

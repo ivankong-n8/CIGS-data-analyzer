@@ -124,7 +124,7 @@ def analyzing():
     print(group_label)
     if group_label is not None:
         data_set.sort(group_label)
-#    data_set.get_boxplot()
+    data_set.get_boxplot()
     data_set.get_boxplot_subplot(2, 3)
 
 

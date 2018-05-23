@@ -81,7 +81,7 @@ label_input = tk.Text(window,height = 2)
 label_input.pack()
 
 
-def input_labels(label_input,grouplb_tk):
+def input_labels(label_input, grouplb_tk):
     '''
     sep by '/'
     '''
@@ -96,11 +96,11 @@ def input_labels(label_input,grouplb_tk):
     
 group_label = None
 b3 = tk.Button(window, text= 'Input group labels(sep by:/)', 
-               command = lambda: input_labels(label_input,grouplb_tk))
+               command = lambda: input_labels(label_input, grouplb_tk))
 b3.pack()
 
 grouplb_tk = tk.StringVar()
-lb_grouplb = tk.Label(window,textvariable = grouplb_tk, bg = 'Green',width = 200)
+lb_grouplb = tk.Label(window,textvariable = grouplb_tk, bg='Green', width=200)
 lb_grouplb.pack()
 
 
@@ -113,11 +113,12 @@ def analyzing():
     grouplb_tk:
     function: init data_sets_class and plot graph
     '''
-    global data_set,group_label
+    global data_set, group_label
     print(data_set)
     print(group_label)
-    data_set.sort(group_label)
-    data_set.get_boxplot()
+    if group_label is not None: 
+        data_set.sort(group_label)
+    data_set.get_boxplot_subplot(2,3)
     
     
 b2 = tk.Button(window, text= 'Analyze', 

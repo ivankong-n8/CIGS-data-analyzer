@@ -30,10 +30,11 @@ class PV_series_data(object):
 
         '''
         if os.path.isdir(foldername):
-            self.series_name = foldername
+            self.file_list = os.listdir(foldername)
+            self.series_name = os.path.basename(foldername)
         else:
             raise ValueError('This is not a folder')
-        self.file_list = os.listdir(self.series_name)
+        
         print('There is/are: '+ str(len(self.file_list))+ ' file(s):\n')
         print(self.file_list)
         print('\n')
@@ -83,6 +84,7 @@ class PV_series_data(object):
         self.group.clear()
         for label in self.group_label:
             self.group[label] = []
+        
         self.group['Unsorted'] = []
 
         for i in self.cell_list.copy():
@@ -118,6 +120,7 @@ class PV_series_data(object):
             else:
                 value_list.append(round(float(i.get_para(item)), 2))
         return value_list
+
     def get_performance(self, cell_list_label=None):
         '''
         cell_list_label:str, self.cell_list or self.group[**]
@@ -131,22 +134,29 @@ class PV_series_data(object):
         return performance_dict
 
     def get_group_label(self):
-        return self.group_label.copy()
+            return self.group_label.copy()
 
     def get_plot_data(self):
         '''
         generate data for ploting
+        modified for unsorted
         '''
         data = [[], []]
-        data[0] = self.get_group_label()
-        for label in data[0]:
-            data[1].append(self.get_performance(label))
+        if self.sort_flag is True:
+            data[0] = self.get_group_label()
+            for label in data[0]:
+                data[1].append(self.get_performance(label))
+        else:
+            data[0].append(self.series_name)
+            data[1].append(self.get_performance())
+            
         return data
 
     def get_boxplot(self):
         '''
         '''
         data = self.get_plot_data()
+        print(data)
         for item in item_list:
             plt.figure()
             plt_data = []
@@ -203,11 +213,12 @@ class PV_series_data(object):
 # =============================================================================
 # test case
 # =============================================================================
-#if __name__ == '__main__':
-#    foldername_input ='20180207-K'
-#    group_label_input = ['MM_21', 'NR006_21','MM_22','NR006_22']
-#    a = PV_series_data(foldername_input)
-#    a.sort(group_label_input)
-#    print(a)
-#    a.get_boxplot()
-#    # a.get_boxplot_subplot(2,3)
+if __name__ == '__main__':
+   foldername_input ='20180207-K'
+   group_label_input = ['MM_21', 'NR006_21','MM_22','NR006_22']
+   # group_label_input = []
+   a = PV_series_data(foldername_input)
+   a.sort(group_label_input)
+   print(a)
+   # a.get_boxplot()
+   a.get_boxplot_subplot(2,3)

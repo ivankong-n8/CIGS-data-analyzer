@@ -9,6 +9,7 @@ Created on Mon Feb  5 22:48:00 2018
 import os
 import matplotlib.pyplot as plt
 import data_class
+import statistics
 
 
 item_list = ('Voc (V)', 'Jsc (mA/cm2)', 'Fill Factor (%)', 'Efficiency (%)',
@@ -191,16 +192,20 @@ class PV_series_data(object):
             plt_data = []
             max_list = []
             min_list = []
+            mid_list = []
             for i in range(len(data[0])):
                 plt_data.append(data[1][i][item])
                 max_list.append(max(plt_data[i]))
                 min_list.append(min(plt_data[i]))
-                if item == 'R at Voc':
-                    plt.text(i+1, 0.95*min_list[i], str(min_list[i]),
-                             horizontalalignment='center')
-                else:
-                    plt.text(i+1, 1.1*max_list[i]-0.1*min_list[i], str(max_list[i]),
-                             horizontalalignment='center')
+                mid_list.append(round(statistics.median(plt_data[i]),2))
+                plt.text(i+1, 1.1*max_list[i]-0.1*min_list[i], str(mid_list[i]),
+                              horizontalalignment='center')
+                # if item == 'R at Voc':
+                #     plt.text(i+1, 0.95*min_list[i], str(min_list[i]),
+                #              horizontalalignment='center')
+                # else:
+                #     plt.text(i+1, 1.1*max_list[i]-0.1*min_list[i], str(max_list[i]),
+                #              horizontalalignment='center')
             plt.boxplot(plt_data)
             plt.ylim(ymax=1.2*max(max_list)-0.2*min(min_list))
             if item == 'R at Voc':

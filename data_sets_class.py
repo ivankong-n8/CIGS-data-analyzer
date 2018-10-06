@@ -7,6 +7,10 @@ Created on Mon Feb  5 22:48:00 2018
 """
 
 import os
+from sys import platform as sys_pf #compatibility with macOS
+if sys_pf == 'darwin':
+    import matplotlib
+    matplotlib.use("TkAgg")
 import matplotlib.pyplot as plt
 import data_class
 import statistics
@@ -31,7 +35,10 @@ class PV_series_data(object):
 
         '''
         if os.path.isdir(foldername):
-            self.file_list = os.listdir(foldername)
+            self.file_list=[]
+            for i in os.listdir(foldername):
+                if i.endswith('.TXT') or i.endswith('.txt'):
+                    self.file_list.append(i) 
             self.series_name = os.path.basename(foldername)
         else:
             raise ValueError('This is not a folder')

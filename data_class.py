@@ -21,7 +21,7 @@ class PV_cell_data(object):
         '''
         self.para_data,self.IV_data = self.load_data(filename)
         
-        if filename.endswith('.txt'):
+        if filename.endswith('.txt') or filename.endswith('.TXT'):
             self.no = filename[:-4] # del '.txt'
         else:
             raise ValueError('This is not a txt file')
